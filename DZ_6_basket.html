@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Корзина товаров</title>
+  <style>
+    body {
+      width: 400px;
+      min-height: 350px;
+      font-family: Arial;
+    }
+    .basket_row {
+      width: 400px;
+      min-height:50px;
+      border: 1px solid lightgrey;
+      background: white;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .basket_row_img {
+      width:28px;
+    }
+    .basket_row_name {
+      width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .basket_row_qty {
+      
+    }
+    .basket_row_qty:after {
+      content: " шт.";
+      font-size: 70%;
+    }
+    .basket_row_price {
+      
+    }
+    .basket_row_price:after {
+      content: " руб.";
+      font-size: 70%;
+    }
+    .basket_row_sum {
+      font-weight: bold;
+    }
+    .basket_row_sum:after {
+      content: " руб.";
+      font-size: 80%;
+    }
+    a.basket_row_del:hover {
+      cursor: pointer
+    }
+    .basket_total {
+      width: 400px;
+      height: 30px;
+      border: 1px solid lightgrey;
+      background: lightgrey;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+    .basket_text {
+      font-size: 12px; 
+      color: grey; 
+      text-align: left;
+    }
+    .category {
+      width: 400px;
+      min-height: 210px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      border: 1px solid lightgrey;
+    }
+    .goods {
+      width: 32%; 
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      border: 1px solid lightgrey;
+    }
+    .goods_price:after {      
+      content: " руб.";
+      font-size: 80%;
+    }
+    .goods_text {      
+      /* display: block;
+      margin: auto;
+      height: 30px; */
+      font-size: 12px; 
+      color: grey; 
+      text-align: center;
+    }
+    .goods_img {
+      width: 120px;
+    }
+    .goods_btn {
+      color: red;
+      cursor: pointer
+    }  
+  </style>
+</head>
+<body>
+  <section id="basket">
+    <p style="text-align: center"> Корзина </p>
+    <!-- ОБРАЗЕЦ HTML-кода СТРОКИ КОРЗИНЫ 
+    <div id="basket_row" class="basket_row">
+      <img id="basket_img" class="basket_row_img" src="https://venera-mart.ru/images/thumbnails/280/300/product/34/longsliv-zhenskij-venera-mart-ru-iriska.jpeg">
+      <span id="basket_name" class="goods_text basket_row_name">Лонгслив женский "Ириска" с длинным рукавом</span>
+      <span id="basket_qty" class="basket_row_qty goods_text">2</span>
+      <span id="basket_price" class="basket_row_price goods_text">920</span>
+      <span id="basket_sum" class="basket_row_sum goods_text">1840</span>
+      <a id="basket_del" class="basket_row_del goods_text">&#215;</a>
+    </div>
+    -->
+  </section>  
+ 
+  <div id="basket_total" class="basket_total">
+    <span class="goods_text">Итого:&#8195;</span>
+    <span id="basket_total_sum" class="goods_text"></span>
+    <span class="goods_text">&#8194;руб.&#8194;</span>
+    <button id="buy1" class="goods_btn" value="buy1">Оформить</button>
+  </div>
+  
+  <p style="text-align: center"> Женская одежда </p>  
+  <section id="category" class= "category">
+    <!-- ОБРАЗЕЦ HTML-кода КАРТОЧКИ ТОВАРА 
+    <article id="article" class="goods">
+      <span id="name" class="goods_text">Лонгслив женский "Ириска" с длинным рукавом</span>
+      <img id="image" class="goods_img" src="https://venera-mart.ru/images/thumbnails/280/300/product/34/longsliv-zhenskij-venera-mart-ru-iriska.jpeg">
+      <span id="price" class="goods_price goods_text">920</span>
+      <button id="buy" class="goods_btn" value="0_buy" onclick="func(this)">Купить</button>
+    </article>
+    -->
+  </section>
+  
+ <script>
+   // СТОИМОСТЬ ВСЕЙ КОРЗИНЫ 
+   var summer_basket = 0;
+   
+   // МАССИВ ТОВАРОВ 
+   var goods = [];
+   goods[0]=[];
+   goods[1]=[];
+   goods[2]=[];
+   goods[3]=[];
+   goods[4]=[];
+   goods[5]=[];
+   
+   goods[0][0]='Комплект тройка "Дора" майка, халат и брюки';
+   goods[0][1]='https://venera-mart.ru/images/thumbnails/280/300/product/14/komplekt-trojka-dora-venera-mart-ru-1.jpeg';
+   goods[0][2]=2510;
+   
+   goods[1][0]='Комплект женский "Белла" халат и сорочка';
+   goods[1][1]='https://venera-mart.ru/images/thumbnails/280/300/product/26/komplekt-zhenskij-venera-mart-ru-bella.jpg';
+   goods[1][2]=1460;
+   
+   goods[2][0]='Комплект женский "Баклажан" халат и сорочка';
+   goods[2][1]='https://venera-mart.ru/images/thumbnails/280/300/product/43/komplekt-zhenskij-venera-mart-ru-iren-baklazhan.jpeg';
+   goods[2][2]=2360;
+   
+   goods[3][0]='Костюм женский "Мишель-2" туника и брюки';
+   goods[3][1]='https://venera-mart.ru/images/thumbnails/280/300/detailed/52/kostyum-jenskiy-mishel-2-669-4-3.jpg';
+   goods[3][2]=1660;
+   
+   goods[4][0]='Костюм женский "Темп" футболка и брюки';
+   goods[4][1]='https://venera-mart.ru/images/thumbnails/280/300/product/32/kostum-zhenskij-venera-mart-ru-temp-sinij.jpg';
+   goods[4][2]=890;
+   
+   goods[5][0]='Костюм женский "Казань" туника и брюки';
+   goods[5][1]='https://venera-mart.ru/images/thumbnails/280/300/product/33/kostum-zhenskij-venera-mart-ru-kazan.jpg';
+   goods[5][2]=940;
+   //console.log(goods[0][0]);
+   
+  // ЗАПОЛНЕНИЕ КАТЕГОРИИ КАРТОЧКАМИ ТОВАРОВ 
+  for (var i=0; i<6; i++) {
+          var category = document.getElementById('category');
+          var article = document.createElement('article');
+          article.setAttribute('id', 'article');
+          article.setAttribute('class', 'goods');
+
+     var span_name = document.createElement('span');
+     span_name.innerHTML = goods[i][0];
+     span_name.setAttribute('id', 'name');
+     span_name.setAttribute('class', 'goods_text');
+     article.appendChild(span_name);
+   
+     var image = document.createElement('img');
+     image.setAttribute('id', 'image');
+     image.setAttribute('class', 'goods_img');
+     image.setAttribute('src', goods[i][1]);
+     article.appendChild(image);
+   
+     var span_price = document.createElement('span');
+     span_price.innerHTML = goods[i][2];
+     span_price.setAttribute('id', 'price');
+     span_price.setAttribute('class', 'goods_price goods_text');
+     article.appendChild(span_price);
+   
+     var button = document.createElement('button');
+     button.innerHTML = "Купить";
+     var buy_num_goods = i+'_buy';
+     //button.setAttribute('id', 'buy');
+     button.setAttribute('id', buy_num_goods);
+     button.setAttribute('class', 'goods_btn');
+     button.setAttribute('value', buy_num_goods);
+     button.setAttribute('onclick', 'func(this)');
+     article.appendChild(button);
+     // console.log(button.getAttribute('value'));
+     
+     // ЗАЛИВАЕМ КАРТОЧКИ НА СТРАНИЦУ
+     category.appendChild(article);
+   } 
+   
+    // ИДЕНТИФИКАЦИЯ КУПЛЕННОГО ТОВАРА И ДОБАВЛЕНИЕ ЕГО В КОРЗИНУ
+   function func(buy) {
+        //console.log(parseInt(buy.value));
+        var name_buy = goods[parseInt(buy.value)][0];
+        var image_buy = goods[parseInt(buy.value)][1];
+        var price_buy = goods[parseInt(buy.value)][2];
+     
+ // ДОБАВЛЕНИЕ ТОВАРА В КОРЗИНУ
+        var basket = document.getElementById('basket');
+        var div = document.createElement('div');
+        div.setAttribute('id', 'basket_row');
+        div.setAttribute('class', 'basket_row');
+
+        var image = document.createElement('img');
+        image.setAttribute('id', 'basket_img');
+        image.setAttribute('class', 'basket_row_img');
+        image.setAttribute('src', image_buy);
+        div.appendChild(image);
+      
+        var name = document.createElement('span');
+        name.innerHTML = name_buy;
+        name.setAttribute('id', 'basket_name');
+        name.setAttribute('class', 'goods_text basket_row_name');
+        div.appendChild(name);
+      
+        var qty = document.createElement('span');
+        qty.innerHTML = "1";
+        qty.setAttribute('id', 'basket_qty');
+        qty.setAttribute('class', 'basket_row_qty goods_text');
+        div.appendChild(qty);
+
+        var price = document.createElement('span');
+        price.innerHTML = price_buy;
+        price.setAttribute('id', 'basket_price');
+        price.setAttribute('class', 'basket_row_price goods_text');
+        div.appendChild(price);
+     
+         // РАССЧЕТ СТОИМОСТИ ИЗДЕЛИЯ (КОЛ-ВО х ЦЕНУ) ДЛЯ СТОИМОСТИ КОРЗИНЫ
+        var qqty = Number.parseInt(qty.innerHTML);
+        var pprice = Number.parseInt(price.innerHTML);
+        var ssum = qqty * pprice;
+     //var ssum = eval(qty.innerHTML*price.innerHTML)
+      
+        var sum = document.createElement('span');
+        sum.innerHTML = ssum;
+        sum.setAttribute('id', 'basket_sum');
+        sum.setAttribute('class', 'basket_row_sum goods_text');
+        div.appendChild(sum);
+
+        var a = document.createElement('a');
+        a.innerHTML = "&#215;";
+        a.setAttribute('id', 'basket_del');
+        a.setAttribute('class', 'basket_row_del goods_text');
+        a.setAttribute('onclick', 'del(this)');
+        div.appendChild(a);
+
+        basket.appendChild(div);
+
+     
+       // УВЕЛИЧЕНИЕ СТОИМОСТИ КОРЗИНЫ (ДОБАВЛЕНИЕ ТОВАРА В КОРЗИНУ)
+       var basket_total_sum = document.getElementById('basket_total_sum');
+       summer_basket = summer_basket + ssum;
+       basket_total_sum.innerHTML = summer_basket;
+   }
+   
+    // УДАЛЕНИЕ ТОВАРА ИЗ КОРЗИНЫ  
+   function del(elem) {
+       var basket_del = document.getElementById('basket');
+       var basket_row_del = document.getElementById('basket_row');
+     
+       // ОПРЕДЕЛЕНИЕ СТОИМОСТИ УДАЛЯЕМОГО ТОВАРА В КОРЗИНЕ
+       var basket_row_del_sum = document.getElementById('basket_sum');
+
+       // УДАЛЕНИЕ СТРОКИ ТОВАРА В КОРЗИНЕ
+       //console.log(button.getAttribute('value'));
+       basket_del.removeChild(basket_row_del);
+     
+       // ОБНОВЛЕНИЕ СТОИМОСТИ КОРЗИНЫ
+       var basket_total_sum = document.getElementById('basket_total_sum');
+       summer_basket  = eval(basket_total_sum.innerHTML - basket_row_del_sum.innerHTML);
+       basket_total_sum.innerHTML = summer_basket;
+   }
+   
+   
+ </script>
+  
+</body>
+</html>
