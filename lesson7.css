@@ -1,0 +1,59 @@
+body {
+    font-family: Arial;
+}
+#snake-field{
+    display: inline-block;
+}
+#snake-renew,#snake-start{
+    width: 150px;
+    padding: 15px;
+    color: SaddleBrown;
+    background-color: PeachPuff;
+    text-align: center;
+    cursor: pointer;
+    float: left;
+    margin-right: 10px;
+    border-top-left-radius: 100% 20px; border-bottom-right-radius: 100% 20px;
+    border: 1px dotted Tan;
+}
+.game-table{
+    border-collapse: collapse;
+    background-color: Bisque;
+}
+td.game-table-cell{
+    width: 15px;
+    height: 15px;
+    border: 1px dotted Tan;
+}
+.snake-unit{
+    background-color: Sienna;
+}
+.food-unit{
+    background-color: Peru;
+}
+.rock-unit{
+    background-color: Crimson;
+}
+.buttons{
+    display: inline-block;
+}
+.wrap{
+    margin: 10px auto 0;
+    text-align: center;
+}
+.score{
+    display: inline-block;
+    width: 100%;
+    margin: 10px auto 0;
+    text-align: center;
+    color: SaddleBrown;
+
+}
+.comments {
+    display: block;
+    width: 400px;
+    min-height: 70px;
+    margin: 20px auto;
+    background-color: Bisque;
+    border-radius: 20%;
+}
